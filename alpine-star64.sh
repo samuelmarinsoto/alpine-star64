@@ -98,7 +98,7 @@ rootuuid=$(blkid -s UUID -o value $ROOTDEV)
 
 mkdir -p "$TMPDIR"/boot/extlinux
 cat <<EOF > "$TMPDIR"/boot/extlinux/extlinux.conf
-menu title StarFive VisionFive
+menu title Pine64 Star64
 timeout 50
 default linux-lts
 
