@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# apk add qemu-img qemu-openrc losetup blkid sgdisk e2fsprogs wget tar
+# apk add util-linux qemu-riscv64 qemu-img qemu-openrc losetup blkid sgdisk e2fsprogs wget tar
 set -eu
 
 : "${DISK:=pine64-star64-mmc.img}"
@@ -80,10 +80,13 @@ echo 'SUBSYSTEM=input;.* root:input 660 */usr/libexec/libudev-zero-helper' >>  $
 # echo 'blacklist jh7110_crypto' >>  $TMPDIR/etc/modprobe.d/blacklist-local.conf
 echo "LABEL=mmc1.bfs	/boot	ext4	auto" >> $TMPDIR/etc/fstab
 
-echo "Cloning rtl8852bu driver src"
+echo "Copying rtl8852bu driver src"
 mkdir -p "$TMPDIR"/usr/src/
-git clone https://github.com/morrownr/rtl8852bu-20240418.git 
-cd rtl8852bu-20240418 && git pull && cd ..
+if [ ! -d rtl8852bu-20240418 ]; then 
+	git clone https://github.com/morrownr/rtl8852bu-20240418.git
+else
+	cd rtl8852bu-20240418 && git pull && cd ..
+fi
 cp -r rtl8852bu-20240418 "$TMPDIR"/usr/src/
 
 echo "Writing rtl8852bu AKMBUILD"
