@@ -1,0 +1,9 @@
+modname=rtl8852bu
+modver=20240418
+built_modules='8852bu.ko'
+MAKEFLAGS=-j4
+
+build() {
+	touch "$builddir"/Makefile
+	make $MAKEFLAGS
+}
