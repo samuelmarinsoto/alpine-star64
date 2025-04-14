@@ -59,10 +59,10 @@ apk --allow-untrusted --root "$TMPDIR" --arch riscv64 --initdb add \
 	ethtool e2fsprogs e2fsprogs-extra libudev-zero libudev-zero-helper \
 	iwd linux-firmware-brcm linux-firmware-cypress installkernel mkinitfs \
 	agetty openresolv tar tzdata openssh wget sgdisk \
-	u-boot-starfive linux-lts linux-lts-dev \
+	u-boot-starfive linux-edge linux-edge-dev linux-lts linux-lts-dev \
 	make gcc build-base linux-headers iw pciutils \
-	akms apk-tools bubblewrap \
-	micro tmux btop pfetch-rs
+	akms apk-tools \
+	micro tmux btop pfetch-rs foot-extra-terminfo
 
 dd if="$TMPDIR"/usr/share/u-boot/starfive_visionfive2/u-boot-spl.bin.normal.out of=${LOOPDEV}p1
 dd if="$TMPDIR"/usr/share/u-boot/starfive_visionfive2/u-boot.itb of=${LOOPDEV}p2
@@ -107,6 +107,13 @@ label linux-lts
 	kernel /vmlinuz-lts
 	initrd /initramfs-lts
 	fdtdir /dtbs-lts/
+	append earlycon=sbi rw root=UUID=$rootuuid rootfstype=ext4 rootwait console=ttyS0,115200 console=tty0
+
+label linux-edge
+	menu label Alpine Edge
+	kernel /vmlinuz-edge
+	initrd /initramfs-edge
+	fdtdir /dbts-edge/
 	append earlycon=sbi rw root=UUID=$rootuuid rootfstype=ext4 rootwait console=ttyS0,115200 console=tty0
 
 EOF
